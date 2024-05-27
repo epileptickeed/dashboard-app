@@ -1,0 +1,57 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'space-mono-reg';
+}
+
+@font-face {
+  font-family: 'space-mono-reg';
+  src: url('./assets/font/SpaceMono-Regular.ttf');
+}
+
+main {
+  display: flex;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.notActive {
+  display: none;
+}
+
+aside {
+  background-color: rgb(84, 84, 215);
+  width: 20vw;
+  padding: 2rem;
+
+  .nav_buttons {
+    border-bottom: 1px solid;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    a {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.2rem;
+      text-decoration: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.15s ease all;
+      &:hover {
+        background-color: rgb(34, 81, 97);
+      }
+    }
+  }
+}
+
+.home {
+  background-color: #cacaca;
+  width: 100%;
+}
+.table_page {
+  padding: 2rem;
+}
