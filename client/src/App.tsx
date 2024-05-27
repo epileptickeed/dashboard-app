@@ -1,20 +1,21 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.scss';
-import Aside from './components/Aside';
-import Home from './pages/Home';
-import User from './pages/User/User';
-import Index from './pages/Table/Index';
-import Graph from './pages/Graph/Graph';
-import { useState } from 'react';
-import { tableContent } from '../data/tableContent';
+import { Route, Routes } from "react-router-dom";
+import "./App.scss";
+import Aside from "./components/Aside";
+import Home from "./pages/Home";
+import User from "./pages/User/User";
+import Index from "./pages/Table/Index";
+import Graph from "./pages/Graph/Graph";
+import { useState } from "react";
+import { tableContent } from "../data/tableContent";
 
 function App() {
   const [data, setData] = useState({
     labels: tableContent.map((item) => item.category),
     datasets: [
       {
-        label: 'Users Gained',
+        label: "Users Gained",
         data: tableContent.map((item) => item.sum),
+        backgroundColor: ["green", "blue", "red", "purple", "yellow"],
       },
     ],
   });

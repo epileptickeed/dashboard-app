@@ -1,12 +1,30 @@
-import './table.scss';
-import { tableContent } from '../../../data/tableContent';
+import "./table.scss";
+import { tableContent } from "../../../data/tableContent";
+import { useState } from "react";
+import axios from "axios";
 
 const Index = () => {
+  const [type, setType] = useState("qwe");
+  const [desc, setDesc] = useState("qwe");
+  const [sum, setSum] = useState(500);
+  const [category, setCategory] = useState("qwe");
+
+  const handleSubmit = async () => {
+    const postData = {
+      type: type,
+      desc: desc,
+      sum: sum,
+      category: category,
+    };
+
+    await axios.post(`http://localhost:4000/expenses`, postData);
+  };
+
   return (
     <div className="table_page">
       <div className="table_header">
         <h1>Таблица</h1>
-        <button>Добавить</button>
+        <button onClick={() => handleSubmit()}>Добавить</button>
       </div>
       <div className="table_content">
         <table className="iksweb">
