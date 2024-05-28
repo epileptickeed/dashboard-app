@@ -1,13 +1,14 @@
-import "./table.scss";
-import { tableContent } from "../../../data/tableContent";
-import { useState } from "react";
-import axios from "axios";
+import './table.scss';
+import { tableContent } from '../../../data/tableContent';
+import { useState } from 'react';
+import axios from 'axios';
+import DemoTable from './demo-table/DemoTable';
 
 const Index = () => {
-  const [type, setType] = useState("qwe");
-  const [desc, setDesc] = useState("qwe");
-  const [sum, setSum] = useState(500);
-  const [category, setCategory] = useState("qwe");
+  const [type, setType] = useState('qwe');
+  const [desc, setDesc] = useState('qwe');
+  const [sum, setSum] = useState(5005);
+  const [category, setCategory] = useState('qwe');
 
   const handleSubmit = async () => {
     const postData = {
@@ -22,6 +23,7 @@ const Index = () => {
 
   return (
     <div className="table_page">
+      <DemoTable />
       <div className="table_header">
         <h1>Таблица</h1>
         <button onClick={() => handleSubmit()}>Добавить</button>

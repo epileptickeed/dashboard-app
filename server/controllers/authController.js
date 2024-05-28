@@ -1,5 +1,7 @@
 const User = require('../models/user');
 const { hashPassword, comparePassword } = require('../helpers/auth');
+const jwt = require('jsonwebtoken');
+require('dotenv/config');
 
 const test = (req, res) => {
   res.json(`test is working`);
@@ -8,7 +10,7 @@ const test = (req, res) => {
 //register
 const registerUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, expenses } = req.body;
 
     if (!email) {
       return res.json({
@@ -35,6 +37,7 @@ const registerUser = async (req, res) => {
     const user = await User.create({
       email,
       password: hashedPassword,
+      expenses,
     });
     return res.json(user);
   } catch (error) {
@@ -45,8 +48,8 @@ const registerUser = async (req, res) => {
 //login
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
+    const { email, password, expenses } = req.body;
+    console.log(req.sessionID);
     //check if user exists
     const user = await User.findOne({ email });
     if (!user) {
@@ -58,14 +61,35 @@ const loginUser = async (req, res) => {
     //check if password match
     const match = await comparePassword(password, user.password);
     if (match) {
+      req.session.authenticated = true;
+      req.session.user = {
+        email,
+        password,
+      };
       return res.json('password match');
-    } else if (!match) {
+    }
+    if (!match) {
       return res.json({
         error: 'passwords do not match',
       });
     }
+
+    //check user expenses
+    const activites = await User.find({ expenses });
+    if (activites) {
+      return res.json(activites);
+    }
   } catch (error) {
     console.error(error);
+  }
+};
+
+const getProfile = async (req, res) => {
+  if (req.session.authenticated) {
+    const user = req.session.user;
+    if (user) {
+      res.json(user);
+    }
   }
 };
 
@@ -73,4 +97,5 @@ module.exports = {
   test,
   registerUser,
   loginUser,
+  getProfile,
 };

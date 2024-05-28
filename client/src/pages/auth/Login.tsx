@@ -14,7 +14,7 @@ const Login = () => {
     const email = userEmail;
     const password = userPassword;
     try {
-      const { data } = await axios.post('/login', {
+      const { data } = await axios.post('/', {
         email,
         password,
       });
@@ -22,9 +22,7 @@ const Login = () => {
         toast.error(data.error);
       } else {
         toast.success('You are logged in, Welcome!');
-        dispatch(setUserEmail(''));
-        dispatch(setUserPassword(''));
-        navigate('/');
+        navigate('/table');
       }
     } catch (err) {
       console.error(err);

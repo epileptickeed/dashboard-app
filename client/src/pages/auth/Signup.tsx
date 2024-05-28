@@ -14,11 +14,20 @@ const Signup = () => {
     event.preventDefault();
     const email = userEmail;
     const password = userPassword;
+    const expenses: any[] = [
+      {
+        type: 'Расходы',
+        category: 'Развлечения',
+        desc: 'Сходил в кино',
+        sum: 500,
+      },
+    ];
     console.log(email, password);
     try {
       const { data } = await axios.post('/register', {
         email,
         password,
+        expenses,
       });
 
       if (data.error) {
@@ -27,7 +36,7 @@ const Signup = () => {
         dispatch(setUserEmail(''));
         dispatch(setUserPassword(''));
         toast.success('Sign up successful, Welcome');
-        navigate('/login');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -54,7 +63,7 @@ const Signup = () => {
         Submit
       </button>
       <span>
-        I already have an account <Link to="/login">Login</Link>
+        I already have an account <Link to="/">Login</Link>
       </span>
     </div>
   );

@@ -1,13 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv/config');
+const session = require('express-session');
 
 const app = express();
 
+app.use(
+  session({
+    secret: 'some secret',
+    cookie: { maxAge: 3600000 * 24 * 7 }, // неделя (вродебы)
+    resave: true,
+    saveUninitialized: false,
+  }),
+);
+
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
 const corsOptions = {
   origin: 'http://localhost:5173',

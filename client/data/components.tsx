@@ -3,6 +3,6 @@ import Graph from '../src/pages/Graph/Graph';
 
 export const components = [
   // { title: 'Главная', path: '/' },
-  { title: 'Таблица', component: <Table />, path: '/' },
+  { title: 'Таблица', component: <Table />, path: '/table' },
   { title: 'График', component: <Graph />, path: '/graph' },
 ];
