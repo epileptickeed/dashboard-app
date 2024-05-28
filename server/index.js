@@ -1,25 +1,23 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const router = require("./routes/router");
-const mongoose = require("mongoose");
-require("dotenv/config");
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+require('dotenv/config');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin: "*",
+  origin: 'http://localhost:5173',
   credentials: true,
   optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-app.use("/", router);
+app.use('/', require('./routes/authRoutes'));
 
-// const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 mongoose
   .connect(process.env.DB_URL)
   .then(() => console.log(`DB connected!`))

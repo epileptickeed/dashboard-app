@@ -1,6 +1,12 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { components } from '../../data/components.tsx';
+import Aside from '../components/Aside.tsx';
+import { Route, Routes } from 'react-router-dom';
+import Index from './Table/Index.tsx';
+import Graph from './Graph/Graph.tsx';
+import { tableContent } from '../../data/tableContent.tsx';
+import { useState } from 'react';
 
 const Home = () => {
   const currentVisibleComponent = useSelector(
@@ -9,13 +15,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      {components.map((item, index) => {
-        return (
-          <div key={index} className={currentVisibleComponent === index ? '' : 'notActive'}>
-            {item.component}
-          </div>
-        );
-      })}
+      <Aside />
     </div>
   );
 };

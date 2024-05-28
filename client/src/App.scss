@@ -55,3 +55,38 @@ aside {
 .table_page {
   padding: 2rem;
 }
+
+.login,
+.signup {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 1rem;
+  width: 400px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  -webkit-box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
+
+  input {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #cacaca;
+    margin-block: 0.5rem;
+  }
+  input[type='submit'] {
+    cursor: pointer;
+    transition: 0.25s ease all;
+    &:hover {
+      background-color: #272727;
+      color: white;
+    }
+  }
+}
