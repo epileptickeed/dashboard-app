@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserEmail, setUserPassword } from '../../redux/userDataSlice/slice';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { userDataSelector } from '../../redux/userDataSlice/selector';
+import { useDispatch, useSelector } from "react-redux";
+import { setUserEmail, setUserPassword } from "../../redux/userDataSlice/slice";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { userDataSelector } from "../../redux/userDataSlice/selector";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,17 +14,10 @@ const Signup = () => {
     event.preventDefault();
     const email = userEmail;
     const password = userPassword;
-    const expenses: any[] = [
-      {
-        type: 'Расходы',
-        category: 'Развлечения',
-        desc: 'Сходил в кино',
-        sum: 500,
-      },
-    ];
+    const expenses: any[] = [];
     console.log(email, password);
     try {
-      const { data } = await axios.post('/register', {
+      const { data } = await axios.post("/register", {
         email,
         password,
         expenses,
@@ -33,10 +26,10 @@ const Signup = () => {
       if (data.error) {
         toast.error(data.error);
       } else {
-        dispatch(setUserEmail(''));
-        dispatch(setUserPassword(''));
-        toast.success('Sign up successful, Welcome');
-        navigate('/');
+        dispatch(setUserEmail(""));
+        dispatch(setUserPassword(""));
+        toast.success("Sign up successful, Welcome");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

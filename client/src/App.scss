@@ -2,12 +2,12 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'space-mono-reg';
+  font-family: "space-mono-reg";
 }
 
 @font-face {
-  font-family: 'space-mono-reg';
-  src: url('./assets/font/SpaceMono-Regular.ttf');
+  font-family: "space-mono-reg";
+  src: url("./assets/font/SpaceMono-Regular.ttf");
 }
 
 main {
@@ -24,6 +24,7 @@ main {
 aside {
   background-color: rgb(84, 84, 215);
   width: 20vw;
+  min-height: 100vh;
   padding: 2rem;
 
   .nav_buttons {
@@ -81,7 +82,7 @@ aside {
     border: 1px solid #cacaca;
     margin-block: 0.5rem;
   }
-  input[type='submit'] {
+  input[type="submit"] {
     cursor: pointer;
     transition: 0.25s ease all;
     &:hover {
