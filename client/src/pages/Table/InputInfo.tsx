@@ -1,16 +1,16 @@
-import { FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { userInputSelector } from '../../redux/userInputSlice/selector';
-import { IoClose } from 'react-icons/io5';
+import { FormEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userInputSelector } from "../../redux/userInputSlice/selector";
+import { IoClose } from "react-icons/io5";
 import {
   setDesc,
   setOpen,
   setSelectedCategory,
   setSelectedType,
   setSum,
-} from '../../redux/userInputSlice/slice';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+} from "../../redux/userInputSlice/slice";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const InputInfo = () => {
   const dispatch = useDispatch();
@@ -35,11 +35,19 @@ const InputInfo = () => {
     };
 
     try {
-      if (selectedCategory === '' || selectedType === '' || sum === 0 || desc === '') {
-        toast.error('Please enter all input');
+      if (
+        selectedCategory === "" ||
+        selectedType === "" ||
+        sum === 0 ||
+        desc === ""
+      ) {
+        toast.error("Please enter all inputs");
         e.preventDefault();
         return false;
       } else {
+        toast.success("Expense added successfully");
+        e.preventDefault();
+        dispatch(setOpen(false));
         await axios.post(`/expenses`, postData);
       }
     } catch (error) {
@@ -60,7 +68,8 @@ const InputInfo = () => {
           <select
             name="type"
             id="type-select"
-            onChange={(e) => dispatch(setSelectedType(e.target.value))}>
+            onChange={(e) => dispatch(setSelectedType(e.target.value))}
+          >
             <option value="">--Выберите тип--</option>
             {type.map((item, index) => {
               return (
@@ -77,7 +86,8 @@ const InputInfo = () => {
           <select
             name="category"
             id="category-select"
-            onChange={(e) => dispatch(setSelectedCategory(e.target.value))}>
+            onChange={(e) => dispatch(setSelectedCategory(e.target.value))}
+          >
             <option value="">--Выберите категорию--</option>
             {category.map((item, index) => {
               return (
