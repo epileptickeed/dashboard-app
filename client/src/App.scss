@@ -117,8 +117,9 @@ aside {
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    padding-block: 2rem;
     flex-direction: column;
-
+    position: relative;
     div {
       display: flex;
       flex-direction: column;
@@ -130,6 +131,19 @@ aside {
         border: none;
         background-color: #cacaca50;
         min-width: 450px;
+      }
+    }
+
+    .closeBtn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0.5rem;
+      background: white;
+
+      &:hover {
+        color: #272727;
+        background-color: #cacaca20;
       }
     }
   }

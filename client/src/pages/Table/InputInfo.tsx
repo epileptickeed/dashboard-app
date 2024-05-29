@@ -4,6 +4,7 @@ import { userInputSelector } from '../../redux/userInputSlice/selector';
 import { IoClose } from 'react-icons/io5';
 import {
   setDesc,
+  setOpen,
   setSelectedCategory,
   setSelectedType,
   setSum,
@@ -42,6 +43,7 @@ const InputInfo = () => {
       }
     } catch (error) {
       console.error(error);
+      e.preventDefault();
       toast.error(`Something went wrong :(`);
     }
   };
@@ -49,6 +51,9 @@ const InputInfo = () => {
   return (
     <div className="inputForm">
       <form action="">
+        <button className="closeBtn" onClick={() => dispatch(setOpen(false))}>
+          <IoClose size={25} />
+        </button>
         <div>
           <label htmlFor="type-select">Тип:</label>
           <select

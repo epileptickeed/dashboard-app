@@ -1,15 +1,17 @@
 import './table.scss';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { userDataSelector } from '../../redux/userDataSlice/selector';
 import { setCurrentUser, setExpenses } from '../../redux/userDataSlice/slice';
 import InputInfo from './InputInfo';
+import { userInputSelector } from '../../redux/userInputSlice/selector';
+import { setOpen } from '../../redux/userInputSlice/slice';
+import { MdDelete } from 'react-icons/md';
 
 const Index = () => {
   const { expenses } = useSelector(userDataSelector);
-
-  const [open, setOpen] = useState(false);
+  const { open } = useSelector(userInputSelector);
 
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userDataSelector);
@@ -25,10 +27,9 @@ const Index = () => {
 
   return (
     <div className="table_page">
-      {/* <Demo /> */}
       <div className="table_header">
         <h1>Таблица</h1>
-        <button onClick={() => setOpen(true)}>Добавить</button>
+        <button onClick={() => dispatch(setOpen(true))}>Добавить</button>
       </div>
       <div className="table_content">
         <table className="iksweb">
@@ -55,6 +56,9 @@ const Index = () => {
                       <td>{item.category}</td>
                       <td>{item?.desc}</td>
                       <td>{item.sum}</td>
+                      <td>
+                        <MdDelete size={25} />
+                      </td>
                     </tr>
                   </tbody>
                 );

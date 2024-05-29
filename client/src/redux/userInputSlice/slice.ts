@@ -7,6 +7,7 @@ export type userData = {
   sum: number;
   selectedType: string;
   selectedCategory: string;
+  open: boolean;
   //   date: Date;
 };
 
@@ -17,6 +18,7 @@ const initialState: userData = {
   sum: 0,
   selectedType: '',
   selectedCategory: '',
+  open: false,
   //   date: new Date(),
 };
 
@@ -36,11 +38,15 @@ export const userInputSlice = createSlice({
     setSum: (state, action) => {
       state.sum = action.payload;
     },
+    setOpen: (state, action) => {
+      state.open = action.payload;
+    },
     // setDate: (state, action) => {
     //   state.date = action.payload;
     // },
   },
 });
 
-export const { setSelectedType, setDesc, setSelectedCategory, setSum } = userInputSlice.actions;
+export const { setSelectedType, setDesc, setSelectedCategory, setSum, setOpen } =
+  userInputSlice.actions;
 export default userInputSlice.reducer;
