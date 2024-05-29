@@ -2,23 +2,38 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "space-mono-reg";
+  font-family: 'space-mono-reg';
+}
+
+:root {
+  --shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
 }
 
 @font-face {
-  font-family: "space-mono-reg";
-  src: url("./assets/font/SpaceMono-Regular.ttf");
+  font-family: 'space-mono-reg';
+  src: url('./assets/font/SpaceMono-Regular.ttf');
 }
 
 main {
   display: flex;
   position: relative;
   height: 100vh;
-  width: 100vw;
 }
 
 .notActive {
   display: none;
+}
+
+button {
+  cursor: pointer;
+  transition: 0.25s ease all;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1rem;
+  &:hover {
+    background-color: #272727;
+    color: white;
+  }
 }
 
 aside {
@@ -71,9 +86,9 @@ aside {
   flex-direction: column;
   padding: 1rem;
 
-  -webkit-box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
-  box-shadow: 0px 0px 100px 0px rgba(34, 60, 80, 0.2);
+  -webkit-box-shadow: var(--shadow);
+  -moz-box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
 
   input {
     padding: 1rem;
@@ -82,12 +97,44 @@ aside {
     border: 1px solid #cacaca;
     margin-block: 0.5rem;
   }
-  input[type="submit"] {
-    cursor: pointer;
-    transition: 0.25s ease all;
-    &:hover {
-      background-color: #272727;
-      color: white;
+}
+
+.inputForm {
+  border-radius: 1rem;
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background-color: white;
+  -webkit-box-shadow: var(--shadow);
+  -moz-box-shadow: var(--shadow);
+  box-shadow: var(--shadow);
+
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      input,
+      select {
+        padding: 0.5rem 1rem;
+        border-radius: 0.7rem;
+        border: none;
+        background-color: #cacaca50;
+        min-width: 450px;
+      }
     }
+  }
+  button {
+    text-align: center;
+    padding: 0.5rem 1rem;
   }
 }

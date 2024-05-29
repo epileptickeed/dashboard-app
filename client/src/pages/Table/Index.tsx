@@ -1,44 +1,34 @@
-import "./table.scss";
-import { tableContent } from "../../../data/tableContent";
-import { useState } from "react";
-import axios from "axios";
-import Demo from "./demo-table/Demo";
-import { useSelector } from "react-redux";
-import { userDataSelector } from "../../redux/userDataSlice/selector";
-import toast from "react-hot-toast";
+import './table.scss';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { userDataSelector } from '../../redux/userDataSlice/selector';
+import { setCurrentUser, setExpenses } from '../../redux/userDataSlice/slice';
+import InputInfo from './InputInfo';
 
 const Index = () => {
   const { expenses } = useSelector(userDataSelector);
 
-  const [type, setType] = useState("qwe");
-  const [desc, setDesc] = useState("qwe");
-  const [sum, setSum] = useState(5005);
-  const [category, setCategory] = useState("qwe");
+  const [open, setOpen] = useState(false);
 
-  const handleSubmit = async () => {
-    const postData = {
-      type: type,
-      desc: desc,
-      sum: sum,
-      category: category,
-    };
-
-    try {
-      const response = await axios.post(`/expenses`, postData);
-      toast.success("You`ve added a activity, please refresh");
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-      toast.error(`Something went wrong :(`);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(userDataSelector);
+  useEffect(() => {
+    if (!currentUser) {
+      axios.get('/profile').then(({ data }) => {
+        dispatch(setCurrentUser(data));
+      });
     }
-  };
+    dispatch(setExpenses(currentUser?.expenses));
+    console.log(currentUser);
+  }, [currentUser]);
 
   return (
     <div className="table_page">
       {/* <Demo /> */}
       <div className="table_header">
         <h1>Таблица</h1>
-        <button onClick={() => handleSubmit()}>Добавить</button>
+        <button onClick={() => setOpen(true)}>Добавить</button>
       </div>
       <div className="table_content">
         <table className="iksweb">
@@ -71,6 +61,9 @@ const Index = () => {
               })
             : null}
         </table>
+      </div>
+      <div className={open ? '' : 'notActive'}>
+        <InputInfo />
       </div>
     </div>
   );
