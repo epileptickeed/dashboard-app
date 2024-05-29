@@ -1,7 +1,6 @@
-const User = require("../models/user");
-const { hashPassword, comparePassword } = require("../helpers/auth");
-const jwt = require("jsonwebtoken");
-require("dotenv/config");
+const User = require('../models/user');
+const { hashPassword, comparePassword } = require('../helpers/auth');
+require('dotenv/config');
 
 const test = (req, res) => {
   res.json(`test is working`);
@@ -14,7 +13,7 @@ const registerUser = async (req, res) => {
 
     if (!email) {
       return res.json({
-        error: "email is required",
+        error: 'email is required',
       });
     }
     //to check if email is taken
@@ -28,7 +27,7 @@ const registerUser = async (req, res) => {
     if (!password) {
       //also for the future || password.length < 6
       return res.json({
-        error: "password is required",
+        error: 'password is required',
       });
     }
 
@@ -54,7 +53,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.json({
-        error: "No user found",
+        error: 'No user found',
       });
     }
 
@@ -66,11 +65,11 @@ const loginUser = async (req, res) => {
         email,
         password,
       };
-      return res.json("password match");
+      return res.json('password match');
     }
     if (!match) {
       return res.json({
-        error: "passwords do not match",
+        error: 'passwords do not match',
       });
     }
 
@@ -86,12 +85,12 @@ const loginUser = async (req, res) => {
 
 const addExpenses = async (req, res) => {
   try {
-    const { type, desc, sum, category } = req.body;
+    const { type, desc, sum, category, id, date } = req.body;
     const userEmail = req.session.user.email;
-    const userId = req.session.user._id; // for whatever reason when there is { id: userId } it doesnt add activities to users that doesnt have them in the first place. Weird
+    const userId = req.session.user._id; // не работает через id, po4emu??!?
     const user = await User.findOne({ email: userEmail });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     const newExpense = {
@@ -99,13 +98,28 @@ const addExpenses = async (req, res) => {
       desc: desc,
       sum: sum,
       category: category,
+      id: id,
+      date: date,
     };
 
     user.expenses.push(newExpense);
 
     await user.save();
 
-    res.status(201).json({ message: "expense added", user: user });
+    res.status(201).json({ message: 'expense added', user: user });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const deleteExpense = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const userEmail = req.session.user.email;
+    const user = await User.findOne({ email: userEmail });
+    user.expenses = user.expenses.filter((item) => item.id !== id);
+    await user.save();
+    res.send('expense deleted');
   } catch (error) {
     console.error(error);
   }
@@ -115,7 +129,7 @@ const getProfile = async (req, res) => {
   if (req.session.authenticated) {
     const user = req.session.user;
     if (user) {
-      const fullUser = await User.findOne({ email: user.email }); // for whatever reason this returns the full user info
+      const fullUser = await User.findOne({ email: user.email });
       res.json(fullUser);
     }
   }
@@ -125,6 +139,7 @@ module.exports = {
   test,
   registerUser,
   loginUser,
-  getProfile,
   addExpenses,
+  deleteExpense,
+  getProfile,
 };

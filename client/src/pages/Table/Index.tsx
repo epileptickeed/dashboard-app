@@ -8,6 +8,7 @@ import InputInfo from './InputInfo';
 import { userInputSelector } from '../../redux/userInputSlice/selector';
 import { setOpen } from '../../redux/userInputSlice/slice';
 import { MdDelete } from 'react-icons/md';
+import toast from 'react-hot-toast';
 
 const Index = () => {
   const { expenses } = useSelector(userDataSelector);
@@ -24,6 +25,20 @@ const Index = () => {
     dispatch(setExpenses(currentUser?.expenses));
     console.log(currentUser);
   }, [currentUser]);
+
+  const deleteExpense = async (id: string) => {
+    try {
+      const { data } = await axios.post(`/deleteExpense`, { id });
+      console.log(data);
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        toast.success('Deleted!');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="table_page">
@@ -57,7 +72,7 @@ const Index = () => {
                       <td>{item?.desc}</td>
                       <td>{item.sum}</td>
                       <td>
-                        <MdDelete size={25} />
+                        <MdDelete onClick={() => deleteExpense(item.id)} size={25} />
                       </td>
                     </tr>
                   </tbody>

@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userInputSelector } from '../../redux/userInputSlice/selector';
 import { IoClose } from 'react-icons/io5';
@@ -17,7 +17,6 @@ const InputInfo = () => {
   const { type, category, sum, desc, selectedCategory, selectedType } =
     useSelector(userInputSelector);
 
-  //будь ты проклят тайпскрипт
   const onInput = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (target.value.length > 4) {
@@ -31,6 +30,8 @@ const InputInfo = () => {
       desc: desc,
       sum: sum,
       category: selectedCategory,
+      id: crypto.randomUUID(),
+      date: new Date(),
     };
 
     try {
@@ -43,8 +44,8 @@ const InputInfo = () => {
       }
     } catch (error) {
       console.error(error);
-      e.preventDefault();
       toast.error(`Something went wrong :(`);
+      e.preventDefault();
     }
   };
 

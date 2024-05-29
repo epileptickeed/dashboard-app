@@ -1,21 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
+export type userExpensesType = {
+  id: string;
+  type: string;
+  category: string;
+  sum: number;
+  desc: string;
+};
+
+export type CurrentUserTypes = {
+  email: string;
+  expenses: userExpensesType[];
+  password: string;
+  __v: number;
+  _id: string;
+};
 
 export type userData = {
   userEmail: string;
   userPassword: string;
-  currentUser: null | any;
-  expenses: any[];
+  currentUser: null | CurrentUserTypes;
+  expenses: userExpensesType[];
 };
 
 const initialState: userData = {
-  userEmail: "",
-  userPassword: "",
+  userEmail: '',
+  userPassword: '',
   currentUser: null,
   expenses: [],
 };
 
 export const userDataSlice = createSlice({
-  name: "userData",
+  name: 'userData',
   initialState,
   reducers: {
     setUserEmail: (state, action) => {
@@ -33,6 +49,5 @@ export const userDataSlice = createSlice({
   },
 });
 
-export const { setUserEmail, setUserPassword, setCurrentUser, setExpenses } =
-  userDataSlice.actions;
+export const { setUserEmail, setUserPassword, setCurrentUser, setExpenses } = userDataSlice.actions;
 export default userDataSlice.reducer;

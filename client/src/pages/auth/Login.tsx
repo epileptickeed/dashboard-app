@@ -4,12 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setUserEmail, setUserPassword } from '../../redux/userDataSlice/slice';
 import { toast } from 'react-hot-toast';
 import { userDataSelector } from '../../redux/userDataSlice/selector';
+import { FormEvent } from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userEmail, userPassword } = useSelector(userDataSelector);
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const email = userEmail;
     const password = userPassword;

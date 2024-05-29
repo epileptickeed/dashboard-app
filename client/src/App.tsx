@@ -3,19 +3,14 @@ import './App.scss';
 import Aside from './components/Aside';
 import Index from './pages/Table/Index';
 import Graph from './pages/Graph/Graph';
-import { useState } from 'react';
-import { tableContent } from '../data/tableContent';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
-import { userDataSelector } from './redux/userDataSlice/selector';
 
 function App() {
   axios.defaults.baseURL = `http://localhost:4000`;
   axios.defaults.withCredentials = true;
-
   const location = useLocation();
   return (
     <main>
