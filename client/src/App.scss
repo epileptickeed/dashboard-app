@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'space-mono-reg';
+  font-family: "montserrat";
 }
 
 :root {
@@ -10,8 +10,8 @@
 }
 
 @font-face {
-  font-family: 'space-mono-reg';
-  src: url('./assets/font/SpaceMono-Regular.ttf');
+  font-family: "montserrat";
+  src: url("./assets/font/Montserrat-VariableFont_wght.ttf");
 }
 
 main {
@@ -161,5 +161,18 @@ aside {
   .graph_expense,
   .graph_income {
     height: 500px;
+  }
+}
+
+button#delete {
+  &:hover {
+    background-color: tomato;
+  }
+}
+
+button#edit {
+  &:hover {
+    background-color: #cacaca50;
+    color: black;
   }
 }

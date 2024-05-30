@@ -1,6 +1,6 @@
-const User = require('../models/user');
-const { hashPassword, comparePassword } = require('../helpers/auth');
-require('dotenv/config');
+const User = require("../models/user");
+const { hashPassword, comparePassword } = require("../helpers/auth");
+require("dotenv/config");
 
 const test = (req, res) => {
   res.json(`test is working`);
@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
 
     if (!email) {
       return res.json({
-        error: 'email is required',
+        error: "email is required",
       });
     }
     //to check if email is taken
@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
     if (!password) {
       //also for the future || password.length < 6
       return res.json({
-        error: 'password is required',
+        error: "password is required",
       });
     }
 
@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.json({
-        error: 'No user found',
+        error: "No user found",
       });
     }
 
@@ -65,11 +65,11 @@ const loginUser = async (req, res) => {
         email,
         password,
       };
-      return res.json('password match');
+      return res.json("password match");
     }
     if (!match) {
       return res.json({
-        error: 'passwords do not match',
+        error: "passwords do not match",
       });
     }
 
@@ -90,7 +90,7 @@ const addExpenses = async (req, res) => {
     const userId = req.session.user._id; // не работает через id, po4emu??!?
     const user = await User.findOne({ email: userEmail });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     const newExpense = {
@@ -106,7 +106,7 @@ const addExpenses = async (req, res) => {
 
     await user.save();
 
-    res.status(201).json({ message: 'expense added', user: user });
+    res.status(201).json({ message: "expense added", user: user });
   } catch (error) {
     console.error(error);
   }
@@ -119,7 +119,7 @@ const deleteExpense = async (req, res) => {
     const user = await User.findOne({ email: userEmail });
     user.expenses = user.expenses.filter((item) => item.id !== id);
     await user.save();
-    res.send('expense deleted');
+    res.send("expense deleted");
   } catch (error) {
     console.error(error);
   }
@@ -135,6 +135,24 @@ const getProfile = async (req, res) => {
   }
 };
 
+const deleteAllExpenses = async (req, res) => {
+  try {
+    const userEmail = req.session.user.email;
+    const user = await User.findOne({ email: userEmail });
+    if (user) {
+      user.expenses = [];
+      await user.save();
+      return res.json("all expenses are deleted");
+    } else {
+      return res.json({
+        error: "something went wrong",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 module.exports = {
   test,
   registerUser,
@@ -142,4 +160,5 @@ module.exports = {
   addExpenses,
   deleteExpense,
   getProfile,
+  deleteAllExpenses,
 };

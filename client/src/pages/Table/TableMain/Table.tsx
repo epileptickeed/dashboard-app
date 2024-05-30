@@ -1,7 +1,7 @@
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import debounce from 'lodash.debounce';
-import Paper from '@mui/material/Paper';
+import axios from "axios";
+import toast from "react-hot-toast";
+import debounce from "lodash.debounce";
+import Paper from "@mui/material/Paper";
 import {
   Grid,
   Table,
@@ -9,18 +9,21 @@ import {
   TableEditColumn,
   TableSelection,
   PagingPanel,
-} from '@devexpress/dx-react-grid-material-ui';
+} from "@devexpress/dx-react-grid-material-ui";
 import {
   SelectionState,
   PagingState,
   IntegratedPaging,
   IntegratedSelection,
-} from '@devexpress/dx-react-grid';
-import { userExpensesType } from '../../../redux/userDataSlice/slice';
-import { EditingState } from '@devexpress/dx-react-grid';
-import { SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
-import { useEffect, useState } from 'react';
-import { generateRows } from '../demo-table/generator';
+} from "@devexpress/dx-react-grid";
+import { userExpensesType } from "../../../redux/userDataSlice/slice";
+import { EditingState } from "@devexpress/dx-react-grid";
+import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
+import { useEffect, useState } from "react";
+import { generateRows } from "./generator";
+
+// здесь много any потому что я не нашёл тайскрипт версию ;(
+// а так я вообще норм тип any избегаю ))
 
 type Expenses = {
   expenses: userExpensesType[];
@@ -38,17 +41,17 @@ type IRow = {
 
 const TableMain = ({ expenses }: Expenses) => {
   const columns = [
-    { name: 'type', title: 'Тип' },
-    { name: 'category', title: 'Категория' },
-    { name: 'desc', title: 'Описание' },
-    { name: 'sum', title: 'Сумма' },
+    { name: "type", title: "Тип" },
+    { name: "category", title: "Категория" },
+    { name: "desc", title: "Описание" },
+    { name: "sum", title: "Сумма" },
   ];
 
   const [selection, setSelection] = useState<any[]>([]);
   const [rows, setRows] = useState<IRow[]>(
     generateRows({
       length: 8,
-    }),
+    })
   );
   useEffect(() => {
     expenses === undefined ? false : setRows(expenses);
@@ -58,17 +61,27 @@ const TableMain = ({ expenses }: Expenses) => {
     Object.entries(rows).reduce(
       (acc, [rowId, row]: any) => ({
         ...acc,
-        [rowId]: columns.some((column: any) => column.required && row[column.name] === ''),
+        [rowId]: columns.some(
+          (column: any) => column.required && row[column.name] === ""
+        ),
       }),
-      {},
+      {}
     );
 
-  const commitChanges = ({ deleted }: any) => {
+  const commitChanges = ({ added, edited, deleted }: any) => {
+    if (added) {
+      console.log("added");
+    }
+
+    if (edited) {
+      console.log("changed");
+    }
+
     if (deleted) {
       const clickedElement = [];
       clickedElement.push(rows[deleted]);
       const clickedElementId = clickedElement.map((item) => item.id);
-      const requestId = clickedElementId.join('');
+      const requestId = clickedElementId.join("");
 
       const deleteExpense = async (id: string) => {
         try {
@@ -77,7 +90,7 @@ const TableMain = ({ expenses }: Expenses) => {
           if (data.error) {
             toast.error(data.error);
           } else {
-            toast.success('Deleted!');
+            toast.success("Deleted!");
             setTimeout(() => {
               window.location.reload();
             }, 1000);
@@ -91,18 +104,27 @@ const TableMain = ({ expenses }: Expenses) => {
   };
 
   const [errors, setErrors] = useState({});
-  const onEdited = debounce((edited) => setErrors(validate(edited, columns)), 250);
-  const [sorting, setSorting] = useState<any>([{ direction: 'asc' }]);
+  const onEdited = debounce(
+    (edited) => setErrors(validate(edited, columns)),
+    250
+  );
+  const [sorting, setSorting] = useState<any>([{ direction: "asc" }]);
 
   return (
     <>
       {expenses && (
         <Paper>
           <Grid rows={rows} columns={columns}>
-            <SelectionState selection={selection} onSelectionChange={setSelection} />
+            <SelectionState
+              selection={selection}
+              onSelectionChange={setSelection}
+            />
             <PagingState defaultCurrentPage={0} pageSize={6} />
             <SortingState sorting={sorting} onSortingChange={setSorting} />
-            <EditingState onRowChangesChange={onEdited} onCommitChanges={commitChanges} />
+            <EditingState
+              onRowChangesChange={onEdited}
+              onCommitChanges={commitChanges}
+            />
             <IntegratedSelection />
             <IntegratedPaging />
             <IntegratedSorting />
