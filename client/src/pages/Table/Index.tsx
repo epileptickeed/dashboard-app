@@ -34,6 +34,9 @@ const Index = () => {
         toast.error(data.error);
       } else {
         toast.success('Deleted!');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     } catch (error) {
       console.error(error);

@@ -10,14 +10,15 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userDataSelector } from '../../redux/userDataSlice/selector';
 import axios from 'axios';
 import { setCurrentUser, setExpenses } from '../../redux/userDataSlice/slice';
 import { RootState } from '../../redux/store';
-import { setGraphExpense } from '../../redux/graphDataSlice/slice';
-// import { setGraphData } from '../../redux/graphDataSlice/slice';
+import { setGraphExpense, setGraphIncome, setToggleGraph } from '../../redux/graphDataSlice/slice';
+import { defaultGraph } from './data/DefautlGraph';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -31,19 +32,10 @@ ChartJS.register(
 
 const Graph = () => {
   const { currentUser, expenses } = useSelector(userDataSelector);
-  const { graphExpense, graphIncome } = useSelector((state: RootState) => state.graphData);
+  const { graphExpense, graphIncome, toggleGraph } = useSelector(
+    (state: RootState) => state.graphData,
+  );
   const dispatch = useDispatch();
-
-  const [data, setData] = useState({
-    labels: expenses ? expenses!.map((item) => item.category) : [],
-    datasets: [
-      {
-        label: 'Расходы',
-        data: expenses ? expenses!.map((item) => item.sum) : [],
-        backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
-      },
-    ],
-  });
 
   useEffect(() => {
     if (!currentUser) {
@@ -52,32 +44,62 @@ const Graph = () => {
       });
     }
     dispatch(setExpenses(currentUser?.expenses));
-    console.log(expenses.map((item) => item.category));
-    if (expenses) {
-      dispatch(setGraphExpense(expenses));
-    }
-    console.log(graphExpense);
-
-    //причина этой безобразии в том что если юзер находиться на странице /graph то график сам не рендериться
-    //фиксанётся если зайти в /table и обратно
-    //из-за этого пришлось дважды писать это :((
-    setData({
-      labels: expenses ? expenses!.map((item) => item.category) : [],
-      datasets: [
-        {
-          label: 'Расходы',
-          data: expenses ? expenses!.map((item) => item.sum) : [],
-          backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
-        },
-      ],
-    });
   }, [currentUser]);
 
-  // console.log(currentUser);
+  // ужасссс...
+  useEffect(() => {
+    const filteredExpenses = expenses?.filter((item) => item.type === 'Расходы');
+    dispatch(
+      setGraphExpense({
+        labels: filteredExpenses ? filteredExpenses!.map((item) => item.category) : [],
+        datasets: [
+          {
+            label: 'Расходы',
+            data: filteredExpenses ? filteredExpenses!.map((item) => item.sum) : [],
+            backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
+          },
+        ],
+      }),
+    );
+    const filteredIncome = expenses?.filter((item) => item.type === 'Доходы');
+    dispatch(
+      setGraphIncome({
+        labels: filteredIncome ? filteredIncome!.map((item) => item.category) : [],
+        datasets: [
+          {
+            label: 'Доходы',
+            data: filteredIncome ? filteredIncome!.map((item) => item.sum) : [],
+            backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
+          },
+        ],
+      }),
+    );
+  }, [expenses]);
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
 
   return (
     <div className="graph_page">
-      <Pie data={data} />
+      <div className={toggleGraph ? 'notActive' : 'graph_expense'}>
+        {graphExpense === undefined ? (
+          <Pie data={defaultGraph} />
+        ) : (
+          <Pie data={graphExpense} options={options} />
+        )}
+      </div>
+      <div className={toggleGraph ? 'graph_income' : 'notActive'}>
+        {graphIncome === undefined ? (
+          <Pie data={defaultGraph} />
+        ) : (
+          <Pie data={graphIncome} options={options} />
+        )}
+      </div>
+      <button onClick={() => dispatch(setToggleGraph(!toggleGraph))}>
+        {toggleGraph ? 'Расходы' : 'Доходы'}
+      </button>
     </div>
   );
 };

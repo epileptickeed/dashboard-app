@@ -38,7 +38,7 @@ button {
 
 aside {
   background-color: rgb(84, 84, 215);
-  width: 20vw;
+  min-width: 20vw;
   min-height: 100vh;
   padding: 2rem;
 
@@ -68,8 +68,10 @@ aside {
   background-color: #cacaca;
   width: 100%;
 }
+
 .table_page {
   padding: 2rem;
+  width: 100%;
 }
 
 .login,
@@ -150,5 +152,14 @@ aside {
   button {
     text-align: center;
     padding: 0.5rem 1rem;
+  }
+}
+
+.graph_page {
+  width: 100%;
+
+  .graph_expense,
+  .graph_income {
+    height: 500px;
   }
 }

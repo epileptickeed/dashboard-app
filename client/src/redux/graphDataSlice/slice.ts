@@ -1,30 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  graphExpense: [
-    {
-      labels: [],
-      datasets: [
-        {
-          label: 'Расходы',
-          data: [],
-          backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
-        },
-      ],
-    },
-  ],
-  graphIncome: [
-    {
-      labels: [],
-      datasets: [
-        {
-          label: 'Доходы',
-          data: [],
-          backgroundColor: ['green', 'blue', 'red', 'purple', 'yellow'],
-        },
-      ],
-    },
-  ],
+  graphExpense: undefined,
+  graphIncome: undefined,
+  toggleGraph: false,
 };
 
 const graphDataSlice = createSlice({
@@ -32,12 +11,16 @@ const graphDataSlice = createSlice({
   initialState,
   reducers: {
     setGraphExpense: (state, action) => {
-      //   state.graphExpense[0].labels.push([...action.payload]);
-      //   state.graphExpense[0].datasets[1].data = action.payload.sum;
+      state.graphExpense = action.payload;
     },
-    setGraphIncome: (state, action) => {},
+    setGraphIncome: (state, action) => {
+      state.graphIncome = action.payload;
+    },
+    setToggleGraph: (state, action) => {
+      state.toggleGraph = action.payload;
+    },
   },
 });
 
-export const { setGraphExpense, setGraphIncome } = graphDataSlice.actions;
+export const { setGraphExpense, setGraphIncome, setToggleGraph } = graphDataSlice.actions;
 export default graphDataSlice.reducer;

@@ -11,10 +11,10 @@ import { Toaster } from 'react-hot-toast';
 function App() {
   axios.defaults.baseURL = `http://localhost:4000`;
   axios.defaults.withCredentials = true;
-  const location = useLocation();
+  const location = useLocation().pathname;
   return (
     <main>
-      {location.pathname === '/' || location.pathname === '/signup' ? null : <Aside />}
+      {location === '/' || location === '/signup' ? null : <Aside />}
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/signup" element={<Signup />} />
