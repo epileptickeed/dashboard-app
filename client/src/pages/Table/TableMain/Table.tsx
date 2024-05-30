@@ -1,6 +1,5 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import debounce from "lodash.debounce";
 import Paper from "@mui/material/Paper";
 import {
   Grid,
@@ -57,24 +56,9 @@ const TableMain = ({ expenses }: Expenses) => {
     expenses === undefined ? false : setRows(expenses);
   }, [expenses]);
 
-  const validate = (rows: any, columns: any) =>
-    Object.entries(rows).reduce(
-      (acc, [rowId, row]: any) => ({
-        ...acc,
-        [rowId]: columns.some(
-          (column: any) => column.required && row[column.name] === ""
-        ),
-      }),
-      {}
-    );
-
-  const commitChanges = ({ added, edited, deleted }: any) => {
-    if (added) {
-      console.log("added");
-    }
-
-    if (edited) {
-      console.log("changed");
+  const commitChanges = ({ changed, deleted }: any) => {
+    if (changed) {
+      console.log("changed"); //<-- не возвращает ничего, ПОЧ?!
     }
 
     if (deleted) {
@@ -103,11 +87,6 @@ const TableMain = ({ expenses }: Expenses) => {
     }
   };
 
-  const [errors, setErrors] = useState({});
-  const onEdited = debounce(
-    (edited) => setErrors(validate(edited, columns)),
-    250
-  );
   const [sorting, setSorting] = useState<any>([{ direction: "asc" }]);
 
   return (
@@ -121,10 +100,7 @@ const TableMain = ({ expenses }: Expenses) => {
             />
             <PagingState defaultCurrentPage={0} pageSize={6} />
             <SortingState sorting={sorting} onSortingChange={setSorting} />
-            <EditingState
-              onRowChangesChange={onEdited}
-              onCommitChanges={commitChanges}
-            />
+            <EditingState onCommitChanges={commitChanges} />
             <IntegratedSelection />
             <IntegratedPaging />
             <IntegratedSorting />

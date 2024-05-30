@@ -23,7 +23,6 @@
     "chart.js": "^4.4.3",
     "devextreme": "21.2.15",
     "devextreme-react": "21.2.15",
-    "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
