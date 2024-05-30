@@ -7,8 +7,7 @@ import { setCurrentUser, setExpenses } from '../../redux/userDataSlice/slice';
 import InputInfo from './InputInfo';
 import { userInputSelector } from '../../redux/userInputSlice/selector';
 import { setOpen } from '../../redux/userInputSlice/slice';
-import { MdDelete } from 'react-icons/md';
-import toast from 'react-hot-toast';
+import TableMain from './TableMain/Table';
 
 const Index = () => {
   const { expenses } = useSelector(userDataSelector);
@@ -26,23 +25,6 @@ const Index = () => {
     console.log(currentUser);
   }, [currentUser]);
 
-  const deleteExpense = async (id: string) => {
-    try {
-      const { data } = await axios.post(`/deleteExpense`, { id });
-      console.log(data);
-      if (data.error) {
-        toast.error(data.error);
-      } else {
-        toast.success('Deleted!');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="table_page">
       <div className="table_header">
@@ -50,40 +32,9 @@ const Index = () => {
         <button onClick={() => dispatch(setOpen(true))}>Добавить</button>
       </div>
       <div className="table_content">
-        <table className="iksweb">
-          <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>Тип</td>
-              <td>Категория</td>
-              <td>Описание</td>
-              <td>Сумма</td>
-            </tr>
-          </tbody>
-          {expenses
-            ? expenses.map((item, index) => {
-                return (
-                  <tbody key={index}>
-                    <tr>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>{item.type}</td>
-                      <td>{item.category}</td>
-                      <td>{item?.desc}</td>
-                      <td>{item.sum}</td>
-                      <td>
-                        <MdDelete onClick={() => deleteExpense(item.id)} size={25} />
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              })
-            : null}
-        </table>
+        <TableMain expenses={expenses} />
       </div>
+
       <div className={open ? '' : 'notActive'}>
         <InputInfo />
       </div>
