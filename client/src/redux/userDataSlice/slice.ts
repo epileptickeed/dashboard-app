@@ -6,6 +6,7 @@ export type userExpensesType = {
   category: string;
   sum: number;
   desc: string;
+  localDate: string;
 };
 
 export type CurrentUserTypes = {

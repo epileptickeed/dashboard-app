@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "montserrat";
+  font-family: 'montserrat';
 }
 
 :root {
@@ -10,8 +10,8 @@
 }
 
 @font-face {
-  font-family: "montserrat";
-  src: url("./assets/font/Montserrat-VariableFont_wght.ttf");
+  font-family: 'montserrat';
+  src: url('./assets/font/Montserrat-VariableFont_wght.ttf');
 }
 
 main {
@@ -72,6 +72,17 @@ aside {
 .table_page {
   padding: 2rem;
   width: 100%;
+
+  .table_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .left_header {
+      display: flex;
+      gap: 2rem;
+    }
+  }
 }
 
 .login,

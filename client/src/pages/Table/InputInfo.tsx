@@ -1,16 +1,16 @@
-import { FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userInputSelector } from "../../redux/userInputSlice/selector";
-import { IoClose } from "react-icons/io5";
+import { FormEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { userInputSelector } from '../../redux/userInputSlice/selector';
+import { IoClose } from 'react-icons/io5';
 import {
   setDesc,
   setOpen,
   setSelectedCategory,
   setSelectedType,
   setSum,
-} from "../../redux/userInputSlice/slice";
-import axios from "axios";
-import toast from "react-hot-toast";
+} from '../../redux/userInputSlice/slice';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const InputInfo = () => {
   const dispatch = useDispatch();
@@ -25,27 +25,24 @@ const InputInfo = () => {
   };
 
   const handleSubmit = async (e: FormEvent) => {
+    const date = new Date();
+    const localDate = date.toLocaleString();
     const postData = {
       type: selectedType,
       desc: desc,
       sum: sum,
       category: selectedCategory,
       id: crypto.randomUUID(),
-      date: new Date(),
+      date: localDate,
     };
 
     try {
-      if (
-        selectedCategory === "" ||
-        selectedType === "" ||
-        sum === 0 ||
-        desc === ""
-      ) {
-        toast.error("Please enter all inputs");
+      if (selectedCategory === '' || selectedType === '' || sum === 0 || desc === '') {
+        toast.error('Please enter all inputs');
         e.preventDefault();
         return false;
       } else {
-        toast.success("Expense added successfully");
+        toast.success('Expense added successfully');
         e.preventDefault();
         dispatch(setOpen(false));
         await axios.post(`/expenses`, postData);
@@ -79,8 +76,7 @@ const InputInfo = () => {
           <select
             name="type"
             id="type-select"
-            onChange={(e) => dispatch(setSelectedType(e.target.value))}
-          >
+            onChange={(e) => dispatch(setSelectedType(e.target.value))}>
             <option value="">--Выберите тип--</option>
             {type.map((item, index) => {
               return (
@@ -97,12 +93,11 @@ const InputInfo = () => {
           <select
             name="category"
             id="category-select"
-            onChange={(e) => dispatch(setSelectedCategory(e.target.value))}
-          >
+            onChange={(e) => dispatch(setSelectedCategory(e.target.value))}>
             <option value="">--Выберите категорию--</option>
-            {selectedType === "Доходы"
+            {selectedType === 'Доходы'
               ? category
-                  .filter((item) => item === "Стипендия" || item === "Зарплата")
+                  .filter((item) => item === 'Стипендия' || item === 'Зарплата')
                   .map((item, index) => {
                     return (
                       <option key={index} value={item}>
@@ -111,7 +106,7 @@ const InputInfo = () => {
                     );
                   })
               : category
-                  .filter((item) => item !== "Стипендия" && item !== "Зарплата")
+                  .filter((item) => item !== 'Стипендия' && item !== 'Зарплата')
                   .map((item, index) => {
                     return (
                       <option key={index} value={item}>
